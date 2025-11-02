@@ -2,13 +2,13 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { logOut, getUserInfo } from './auth/index.js';
+import { useAuth } from './auth/AuthProvider';
+import { logOut, LogOut } from '@/components/auth/actions';
 import { Menu, X, User } from 'lucide-react';
 
 export default function Navbar() {
-  const user =  {
-    email:"obay.devloper@gmail.com"
-  } 
+  const { user } = useAuth();
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const [isProfileOpen, setIsProfileOpen] = useState(false);

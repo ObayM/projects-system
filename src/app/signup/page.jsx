@@ -1,10 +1,10 @@
-import {  signup } from './actions'
+import {  signup } from '@/components/auth/actions'
 import Link from 'next/link'
 
 export default function LoginPage() {
   return (
 
-    <main className="flex items-center justify-center min-h-screen bg-stone-100 ">
+    <main className="flex items-center justify-center min-h-[calc(100vh-72px)] ">
 
       <div className="w-full max-w-md p-8 space-y-8 bg-white border rounded-2xl shadow-xl border-gray-200/50">
         

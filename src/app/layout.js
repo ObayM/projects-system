@@ -1,6 +1,10 @@
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import Navbar from "./components/navbar";
+import { getUserInfo } from "@/components/auth/getUserInfo";
+import { AuthProvider } from "@/components/auth/AuthProvider";
+import Navbar from "@/components/navbar";
+
+
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
@@ -13,15 +17,21 @@ export const metadata = {
   description: "Created by Obay",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+
+  const user = await getUserInfo();
+
   return (
     <html lang="en">
       <body
         className={`${poppins.variable} antialiased`}
       >
-        <Navbar />
-        {children}
+        <AuthProvider initialUser={user}>
+          <Navbar />
+          {children}
+        </AuthProvider>
       </body>
+      
     </html>
   );
 }

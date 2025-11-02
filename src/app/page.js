@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden  p-8">
+    <main className="relative min-h-[calc(100vh-72px)] flex flex-col justify-center items-center overflow-hidden  p-8">
       
       <div className="z-10 text-center">
         
