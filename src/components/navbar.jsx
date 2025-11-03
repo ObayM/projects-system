@@ -1,21 +1,50 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useAuth } from './auth/AuthProvider';
 import { logOut } from '@/components/auth/actions';
 import { Menu, X, User } from 'lucide-react';
 
+
+const useOutsideClick = (ref, callback) => {
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (ref.current && !ref.current.contains(event.target)) {
+        callback();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref, callback]);
+};
+
+
 export default function Navbar() {
   const { user } = useAuth();
+  const pathname = usePathname();
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
+  const profileRef = useRef(null);
+  useOutsideClick(profileRef, () => setIsProfileOpen(false));
+
+  const navLinks = [
+    { name: 'Home', href: '/' },
+    { name: 'Projects', href: '/projects' },
+    { name: 'Explore', href: '/explore' },
+  ];
+
   return (
-    <header className="sticky top-0 z-50 w-full">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between p-4 lg:px-8" aria-label="Global">
+    <>
+      <header className="sticky top-0 z-50 w-full border-b border-gray-700 bg-gray-900/80 backdrop-blur-sm">
+        <nav className="mx-auto flex max-w-7xl items-center justify-between p-4 lg:px-8" aria-label="Global">
 
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5">
@@ -37,62 +66,160 @@ export default function Navbar() {
           </button>
         </div>
 
-        <div className="hidden lg:flex lg:items-center lg:gap-x-12">
-          {/* I'll be adding links here when i am done with the pages */}
-        </div>
-
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          {user ? (
-            <div className="relative">
-              <button
-                onClick={() => setIsProfileOpen(!isProfileOpen)}
-                className="flex items-center justify-center w-10 h-10 bg-gray-200 rounded-full hover:bg-gray-300"
+          <div className="hidden lg:flex lg:items-center lg:gap-x-12">
+            {navLinks.map((link) => (
+              <Link 
+                key={link.name} 
+                href={link.href} 
+                className={`text-sm font-semibold leading-6 transition-colors ${
+                  pathname === link.href 
+                    ? 'text-amber-500'
+                    : 'text-gray-200 hover:text-white'
+                }`}
               >
-                <User className="w-6 h-6 text-gray-600" />
-              </button>
+                {link.name}
+              </Link>
+            ))}
+          </div>
 
-              {isProfileOpen && (
-                <div
-                  className="absolute -right-20 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg"
+          <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+            {user ? (
+              <div className="relative" ref={profileRef}>
+                <button
+                  onClick={() => setIsProfileOpen(!isProfileOpen)}
+                  className="flex items-center justify-center w-10 h-10 bg-gray-200 rounded-full hover:bg-gray-300"
                 >
-                  <div className="py-1">
+                  <User className="w-6 h-6 text-gray-600" />
+                </button>
 
-                    <div className="px-4 py-2 text-sm text-gray-700 border-b">
-                      <p className="font-semibold">Welcome!</p>
-                      <p className="truncate text-gray-500">{user.email || 'oops'}</p>
-                    </div>
-                    <Link href="/profile" className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100">
-                      My Profile
-                    </Link>
-
-                    <form action={logOut} className="w-full">
-                      <button
-                        type="submit"
-                        className="text-red-600 block w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
-                        role="menuitem"
+                {isProfileOpen && (
+                  <div
+                    className="absolute right-0 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1
+                     ring-black ring-opacity-5 focus:outline-none"
+                  >
+                    <div className="py-1">
+                      <div className="px-4 py-2 text-sm text-gray-700 border-b">
+                        <p className="font-semibold">Welcome!</p>
+                        <p className="truncate text-gray-500">{user.email || 'No email found'}</p>
+                      </div>
+                      <Link 
+                        href="/profile" 
+                        onClick={() => setIsProfileOpen(false)}
+                        className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
                       >
-                        Log Out
-                      </button>
-                    </form>
+                        My Profile
+                      </Link>
+                      <form action={logOut} className="w-full">
+                        <button
+                          type="submit"
+                          className="text-red-600 block w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
+                        >
+                          Log Out
+                        </button>
+                      </form>
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
-          ) : (
-            <div className="flex items-center space-x-4">
-              <Link href="/login" className="text-sm font-semibold leading-6 text-gray-100 transition-colors hover:text-white">
-                Log in
-              </Link>
-              <Link href="/signup" className="bg-amber-700 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors">
-                Sign up
-              </Link>
-            </div>
-          )}
-        </div>
-      </nav>
+                )}
+              </div>
+            ) : (
+              <div className="flex items-center space-x-4">
+                <Link href="/login" className="text-sm font-semibold leading-6 text-gray-200 transition-colors hover:text-white">
+                  Log in
+                </Link>
+                <Link href="/signup" className="rounded-md bg-amber-700 px-3.5 py-2 text-sm font-semibold text-white 
+                shadow-sm transition-colors hover:bg-amber-600">
+                  Sign up
+                </Link>
+              </div>
+            )}
+          </div>
+        </nav>
 
-      {/* {isMobileMenuOpen && (
-      )} */}
-    </header>
+      </header>
+
+      {isMobileMenuOpen && (
+        <div className="lg:hidden" role="dialog" aria-modal="true">
+
+          <div className="fixed inset-0 z-50 bg-black/30" />
+
+          <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-gray-900 px-6 py-6 
+          sm:max-w-sm sm:ring-1 sm:ring-white/10">
+            <div className="flex items-center justify-between">
+              <Link href="/" className="-m-1.5 p-1.5" onClick={() => setIsMobileMenuOpen(false)}>
+                <span className="text-xl font-bold tracking-tight text-white">Beauty Of The Making</span>
+              </Link>
+              <button
+                type="button"
+                className="-m-2.5 rounded-md p-2.5 text-gray-200"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <span className="sr-only">Close menu</span>
+                <X className="h-6 w-6" aria-hidden="true" />
+              </button>
+            </div>
+            
+            <div className="mt-6 flow-root">
+              <div className="-my-6 divide-y divide-gray-500/25">
+
+                <div className="space-y-2 py-6">
+                  {navLinks.map((link) => (
+                    <Link
+                      key={link.name}
+                      href={link.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={`-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 transition-colors ${
+                        pathname === link.href
+                          ? 'text-amber-500 bg-gray-800' 
+                          : 'text-gray-200 hover:bg-gray-800'
+                      }`}
+                    >
+                      {link.name}
+                    </Link>
+                  ))}
+                </div>
+
+
+                <div className="py-6">
+                  {user ? (
+                    <div className="space-y-4">
+                      <Link
+                        href="/profile"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="-mx-3 flex items-center gap-x-3 rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-200 hover:bg-gray-800"
+                      >
+                        <User className="w-5 h-5" /> My Profile
+                      </Link>
+                      <form action={logOut} className="w-full">
+                        <button type="submit" className="w-full rounded-md bg-red-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-red-500">
+                          Log Out
+                        </button>
+                      </form>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      <Link
+                        href="/login"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-200 hover:bg-gray-800"
+                      >
+                        Log in
+                      </Link>
+                      
+                      <Link
+                        href="/signup"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="block w-full rounded-md bg-amber-700 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm transition-colors hover:bg-amber-600"
+                      >
+                        Sign up
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
