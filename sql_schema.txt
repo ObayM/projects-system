@@ -1,0 +1,79 @@
+create extension if not exists "uuid-ossp";
+
+create table public.projects (
+  id uuid primary key default uuid_generate_v4(),
+
+  user_id uuid not null references auth.users(id) on delete cascade,
+
+  name text not null,
+  slug text not null, -- unique per user, generated client-side
+  description text,
+  github_repo text,
+  deployed_url text,
+  image_url text not null default 'https://hc-cdn.hel1.your-objectstorage.com/s/v3/41e9de19cfa4e099cf25410ac38542776693b54e_t.png',
+
+  is_public boolean not null default false,
+
+  created_at timestamp with time zone default now(),
+  updated_at timestamp with time zone default now(),
+  deleted_at timestamp with time zone null
+);
+
+create unique index projects_user_slug_idx on public.projects (user_id, slug);
+
+create or replace function public.update_timestamp()
+returns trigger as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$$ language plpgsql;
+
+create trigger update_projects_timestamp
+before update on public.projects
+for each row
+execute procedure public.update_timestamp();
+
+create or replace view public.public_projects as
+select *
+from public.projects
+where is_public = true
+and deleted_at is null;
+
+alter table public.projects enable row level security;
+
+
+create policy "Public can view public projects" on public.projects
+for select
+using (
+  is_public = true
+  and deleted_at is null
+);
+
+create policy "Users can view their own projects" on public.projects
+for select
+using (
+  auth.uid() = user_id
+  and deleted_at is null
+);
+
+create policy "Users can insert their own projects" on public.projects
+for insert
+with check (
+  auth.uid() = user_id
+);
+
+create policy "Users can update their own projects" on public.projects
+for update
+using (
+  auth.uid() = user_id
+  and deleted_at is null
+);
+
+create policy "Users can soft delete their own projects" on public.projects
+for delete
+using (
+  auth.uid() = user_id
+  and deleted_at is null
+);
+

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from './auth/AuthProvider';
-import { logOut, LogOut } from '@/components/auth/actions';
+import { logOut } from '@/components/auth/actions';
 import { Menu, X, User } from 'lucide-react';
 
 export default function Navbar() {
