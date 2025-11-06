@@ -52,7 +52,7 @@ export default function CreateProject() {
             is_public: isPublic,
         };
 
-        const response = await fetch('/api/projects/all', {
+        const response = await fetch('/api/projects/currentUser', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(projectData),
@@ -69,14 +69,14 @@ export default function CreateProject() {
     };
 
     return (
-        <div className="min-h-[calc(100vh-72px)] py-12 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-[calc(100vh-73px)] py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl mx-auto">
                 <h1 className="absolute left-20 top-2/9 text-4xl font-bold text-center 
                 rotate-320 text-orange-500 [text-shadow:0_0_10px_#ea580c] mb-8">
                     Summon a New Creation
                 </h1>
 
-                <form onSubmit={handleSubmit} className="space-y-8 bg-gray-800 p-8 shadow-lg shadow-orange-900/50 border border-gray-700">
+                <form onSubmit={handleSubmit} className="space-y-8 bg-neutral-800 p-8 shadow-lg shadow-orange-900/50 border border-neutral-700">
                     
                     {error && <div className="p-4 bg-red-900/50 border border-red-500 text-red-300 
                     rounded-md animate-pulse">{error}</div>}
@@ -91,8 +91,8 @@ export default function CreateProject() {
                             onChange={handleNameChange}
                             required
                             placeholder="e.g., The Midnight Haunter"
-                            className="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 
-                            rounded-md text-gray-200 shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
+                            className="mt-1 block w-full px-3 py-2 bg-neutral-700 border border-neutral-600 
+                            rounded-md text-neutral-200 shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500"
                         />
                     </div>
 
@@ -104,10 +104,10 @@ export default function CreateProject() {
                             value={slug}
                             onChange={(e) => setSlug(e.target.value)}
                             required
-                            className="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md bg-gray-900 text-gray-400 cursor-not-allowed"
+                            className="mt-1 block w-full px-3 py-2 border border-neutral-600 rounded-md bg-neutral-900 text-neutral-400 cursor-not-allowed"
                             readOnly
                         />
-                        <p className="text-xs text-gray-500 mt-1">you/creations/{slug}</p>
+                        <p className="text-xs text-neutral-500 mt-1">you/creations/{slug}</p>
                     </div>
                     
                     <div>
@@ -119,7 +119,7 @@ export default function CreateProject() {
                             rows={4}
                             required
                             placeholder="Scribe the dark purpose of this creation..."
-                            className="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-gray-200 shadow-sm 
+                            className="mt-1 block w-full px-3 py-2 bg-neutral-700 border border-neutral-600 rounded-md text-neutral-200 shadow-sm 
                             focus:outline-none focus:ring-orange-500 focus:border-orange-500"
                         />
                     </div>
@@ -128,13 +128,13 @@ export default function CreateProject() {
                         <div>
                             <label htmlFor="githubRepo" className="block text-sm font-medium text-orange-400">Grimoire's Location (GitHub)</label>
                             <input id="githubRepo" type="url" value={githubRepo} onChange={(e) => setGithubRepo(e.target.value)} required 
-                            className="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-gray-200 shadow-sm 
+                            className="mt-1 block w-full px-3 py-2 bg-neutral-700 border border-neutral-600 rounded-md text-neutral-200 shadow-sm 
                             focus:outline-none focus:ring-orange-500 focus:border-orange-500" />
                         </div>
                         <div>
                             <label htmlFor="deployedUrl" className="block text-sm font-medium text-orange-400">Haunt's Address (URL)</label>
                             <input id="deployedUrl" type="url" value={deployedUrl} onChange={(e) => setDeployedUrl(e.target.value)} required 
-                            className="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-gray-200 shadow-sm 
+                            className="mt-1 block w-full px-3 py-2 bg-neutral-700 border border-neutral-600 rounded-md text-neutral-200 shadow-sm 
                             focus:outline-none focus:ring-orange-500 focus:border-orange-500" />
                         </div>
                     </div>
@@ -146,9 +146,9 @@ export default function CreateProject() {
                             type="checkbox"
                             checked={isPublic}
                             onChange={(e) => setIsPublic(e.target.checked)}
-                            className="h-4 w-4 accent-orange-600 bg-gray-700 border-gray-600 rounded focus:ring-orange-500"
+                            className="h-4 w-4 accent-orange-600 bg-neutral-700 border-neutral-600 rounded focus:ring-orange-500"
                         />
-                        <label htmlFor="isPublic" className="ml-2 block text-sm text-gray-300">Unleash upon the world?</label>
+                        <label htmlFor="isPublic" className="ml-2 block text-sm text-neutral-300">Unleash upon the world?</label>
                     </div>
 
                     <div className="flex justify-end pt-4">
@@ -157,7 +157,7 @@ export default function CreateProject() {
                             type="submit"
                             disabled={isSubmitting}
                             className="bg-orange-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-orange-700
-                             transition-colors disabled:bg-gray-600 disabled:cursor-not-allowed hover:shadow-lg hover:shadow-orange-500/50"
+                             transition-colors disabled:bg-neutral-600 disabled:cursor-not-allowed hover:shadow-lg hover:shadow-orange-500/50"
                         >
                             {isSubmitting ? 'Conjuring...' : 'Conjure Creation'}
                         </button>

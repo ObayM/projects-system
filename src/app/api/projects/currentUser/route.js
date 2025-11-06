@@ -4,21 +4,35 @@ import { createClient } from '@/utils/supabase/server'
 
 export async function GET() {
   const supabase = await createClient()
+  
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
 
   const { data: projects, error } = await supabase
     .from('projects')
-    .select('*')
+    .select('*, profiles(username)')
+    .eq('user_id', user.id)
     .order('created_at', { ascending: false });
 
   if (error) {
-    console.error('Error fetching projects:', error);
+    console.error('Error fetching user projects with profiles:', error);
     return NextResponse.json(
       { error: 'Failed to fetch projects' },
       { status: 500 }
     );
   }
 
-  return NextResponse.json(projects);
+  const projects_username = projects.map(project => {
+    return {
+      ...project,
+      owner_username: project.profiles?.username,
+    };
+  });
+
+  return NextResponse.json(projects_username);
 }
 
 
@@ -34,6 +48,7 @@ const createProjectSchema = z.object({
   image_url: z.string().url('Must be a valid URL').optional(),
   is_public: z.boolean().default(false),
 });
+
 
 
 export async function POST(request) {

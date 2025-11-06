@@ -13,14 +13,26 @@ export async function login(formData) {
     password: formData.get('password'),
   }
 
-  const { error } = await supabase.auth.signInWithPassword(data)
+  const { data: authData, error } = await supabase.auth.signInWithPassword(data)
 
   if (error) {
     redirect('/error')
   }
 
+  const user = authData.user
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('id')
+    .eq('id', user.id)
+    .maybeSingle()
+
+  if (!profile) {
+    redirect('/onboarding')
+  }
+
   revalidatePath('/', 'layout')
-  redirect('/')
+  redirect('/projects')
 }
 
 export async function signup(formData) {

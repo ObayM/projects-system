@@ -4,16 +4,16 @@ import Link from 'next/link'
 export default function LoginPage() {
   return (
 
-    <main className="flex items-center justify-center min-h-[calc(100vh-72px)] ">
+    <main className="flex items-center justify-center min-h-[calc(100vh-73px)] ">
 
-      <div className="w-full max-w-md p-8 space-y-8 bg-white border rounded-2xl shadow-xl border-gray-200/50">
+      <div className="w-full max-w-md p-8 space-y-8 bg-white border rounded-2xl shadow-xl border-neutral-200/50">
         
 
         <div className="text-center">
           <h1 className="text-3xl font-bold tracking-tight text-blue-950 ">
             Sign Up
           </h1>
-          <p className="mt-2 text-sm text-gray-500 ">
+          <p className="mt-2 text-sm text-neutral-500 ">
             Create Your Account!
           </p>
         </div>
@@ -22,7 +22,7 @@ export default function LoginPage() {
           <div>
             <label 
               htmlFor="email" 
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-neutral-700"
             >
               Email Address
             </label>
@@ -34,7 +34,7 @@ export default function LoginPage() {
                 type="email"
                 autoComplete="email"
                 required
-                className="block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm appearance-none placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm "
+                className="block w-full px-3 py-2 bg-neutral-50 border border-neutral-300 rounded-md shadow-sm appearance-none placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm "
               />
             </div>
 
@@ -43,7 +43,7 @@ export default function LoginPage() {
           <div>
             <label 
               htmlFor="password" 
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-neutral-700"
             >
               Password
             </label>
@@ -54,7 +54,7 @@ export default function LoginPage() {
                 type="password"
                 autoComplete="current-password"
                 required
-                className="block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm appearance-none placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-"
+                className="block w-full px-3 py-2 bg-neutral-50 border border-neutral-300 rounded-md shadow-sm appearance-none placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-"
               />
             </div>
           </div>
@@ -71,7 +71,7 @@ export default function LoginPage() {
           </div>
         </form>
 
-        <p className="mt-10 text-sm text-center text-gray-500 ">
+        <p className="mt-10 text-sm text-center text-neutral-500 ">
           Already Have an Account?{' '}
           <Link href="/login" className="font-semibold leading-6 text-blue-600 hover:text-blue-500">
             Sign In

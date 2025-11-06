@@ -43,12 +43,12 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full border-b border-gray-700 bg-gray-900/80 backdrop-blur-sm">
+      <header className="sticky top-0 z-50 w-full border-b border-neutral-700 bg-neutral-900/80 backdrop-blur-sm">
         <nav className="mx-auto flex max-w-7xl items-center justify-between p-4 lg:px-8" aria-label="Global">
 
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5">
-            <span className="text-xl font-bold tracking-tight text-gray-100">
+            <span className="text-xl font-bold tracking-tight text-neutral-100">
               Beauty Of The Making
               {/* ofc i'll change this :pf: */}
             </span>
@@ -58,7 +58,7 @@ export default function Navbar() {
         <div className="flex lg:hidden">
           <button
             type="button"
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-100"
+            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-neutral-100"
             onClick={() => setIsMobileMenuOpen(true)}
           >
             <span className="sr-only">Open main menu</span>
@@ -74,7 +74,7 @@ export default function Navbar() {
                 className={`text-sm font-semibold leading-6 transition-colors ${
                   pathname === link.href 
                     ? 'text-amber-500'
-                    : 'text-gray-200 hover:text-white'
+                    : 'text-neutral-200 hover:text-white'
                 }`}
               >
                 {link.name}
@@ -87,9 +87,9 @@ export default function Navbar() {
               <div className="relative" ref={profileRef}>
                 <button
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
-                  className="flex items-center justify-center w-10 h-10 bg-gray-200 rounded-full hover:bg-gray-300"
+                  className="flex items-center justify-center w-10 h-10 bg-neutral-200 rounded-full hover:bg-neutral-300"
                 >
-                  <User className="w-6 h-6 text-gray-600" />
+                  <User className="w-6 h-6 text-neutral-600" />
                 </button>
 
                 {isProfileOpen && (
@@ -98,21 +98,21 @@ export default function Navbar() {
                      ring-black ring-opacity-5 focus:outline-none"
                   >
                     <div className="py-1">
-                      <div className="px-4 py-2 text-sm text-gray-700 border-b">
+                      <div className="px-4 py-2 text-sm text-neutral-700 border-b">
                         <p className="font-semibold">Welcome!</p>
-                        <p className="truncate text-gray-500">{user.email || 'No email found'}</p>
+                        <p className="truncate text-neutral-500">{user.email || 'No email found'}</p>
                       </div>
                       <Link 
                         href="/profile" 
                         onClick={() => setIsProfileOpen(false)}
-                        className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
+                        className="text-neutral-700 block px-4 py-2 text-sm hover:bg-neutral-100"
                       >
                         My Profile
                       </Link>
                       <form action={logOut} className="w-full">
                         <button
                           type="submit"
-                          className="text-red-600 block w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
+                          className="text-red-600 block w-full px-4 py-2 text-left text-sm hover:bg-neutral-100"
                         >
                           Log Out
                         </button>
@@ -123,7 +123,7 @@ export default function Navbar() {
               </div>
             ) : (
               <div className="flex items-center space-x-4">
-                <Link href="/login" className="text-sm font-semibold leading-6 text-gray-200 transition-colors hover:text-white">
+                <Link href="/login" className="text-sm font-semibold leading-6 text-neutral-200 transition-colors hover:text-white">
                   Log in
                 </Link>
                 <Link href="/signup" className="rounded-md bg-amber-700 px-3.5 py-2 text-sm font-semibold text-white 
@@ -142,7 +142,7 @@ export default function Navbar() {
 
           <div className="fixed inset-0 z-50 bg-black/30" />
 
-          <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-gray-900 px-6 py-6 
+          <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-neutral-900 px-6 py-6 
           sm:max-w-sm sm:ring-1 sm:ring-white/10">
             <div className="flex items-center justify-between">
               <Link href="/" className="-m-1.5 p-1.5" onClick={() => setIsMobileMenuOpen(false)}>
@@ -150,7 +150,7 @@ export default function Navbar() {
               </Link>
               <button
                 type="button"
-                className="-m-2.5 rounded-md p-2.5 text-gray-200"
+                className="-m-2.5 rounded-md p-2.5 text-neutral-200"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 <span className="sr-only">Close menu</span>
@@ -159,7 +159,7 @@ export default function Navbar() {
             </div>
             
             <div className="mt-6 flow-root">
-              <div className="-my-6 divide-y divide-gray-500/25">
+              <div className="-my-6 divide-y divide-neutral-500/25">
 
                 <div className="space-y-2 py-6">
                   {navLinks.map((link) => (
@@ -169,8 +169,8 @@ export default function Navbar() {
                       onClick={() => setIsMobileMenuOpen(false)}
                       className={`-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 transition-colors ${
                         pathname === link.href
-                          ? 'text-amber-500 bg-gray-800' 
-                          : 'text-gray-200 hover:bg-gray-800'
+                          ? 'text-amber-500 bg-neutral-800' 
+                          : 'text-neutral-200 hover:bg-neutral-800'
                       }`}
                     >
                       {link.name}
@@ -185,7 +185,7 @@ export default function Navbar() {
                       <Link
                         href="/profile"
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className="-mx-3 flex items-center gap-x-3 rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-200 hover:bg-gray-800"
+                        className="-mx-3 flex items-center gap-x-3 rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-neutral-200 hover:bg-neutral-800"
                       >
                         <User className="w-5 h-5" /> My Profile
                       </Link>
@@ -200,7 +200,7 @@ export default function Navbar() {
                       <Link
                         href="/login"
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-200 hover:bg-gray-800"
+                        className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-neutral-200 hover:bg-neutral-800"
                       >
                         Log in
                       </Link>
