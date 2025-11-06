@@ -49,7 +49,7 @@ export async function signup(formData) {
   }
 
   revalidatePath('/', 'layout')
-  redirect('/')
+  redirect(`/auth/email-confirm?email=${encodeURIComponent(data.email)}`)
 }
 
 
