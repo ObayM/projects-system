@@ -41,7 +41,7 @@ Open [http://localhost:3000](http://localhost:3000) during development.
 * `/login` : to login to your account
 * `/signup` : to create a new account
 * `auth/email-confirm` : to confirm your email
-* `/onboarding` : to choose a username
+* `/onboarding` : to choose a username  
 
 * `/explore` : to see all puplic projects
 * `/projects` : to see your projects
