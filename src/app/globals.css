@@ -3,8 +3,8 @@
 
 body {
     font-family: var(--font-poppins);
-    background-color: #000;
-    background-image: linear-gradient(to right, #fd843f 1px, transparent 1px), linear-gradient(to bottom, #ffaf46 1px, transparent 1px);
+    background-color: #0d1117;
+    background-image: linear-gradient(to right, #00b4d8 1px, transparent 1px), linear-gradient(to bottom, #90e0ef 1px, transparent 1px);
     background-position: top;
     background-repeat: repeat;
     background-size: 60px 60px;
