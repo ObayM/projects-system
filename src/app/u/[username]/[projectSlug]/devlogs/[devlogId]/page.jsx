@@ -35,54 +35,55 @@ export default async function DevlogPage({ params }) {
   if (!devlog) return notFound();
 
   return (
-    <div className=" min-h-[calc(100vh-73px)] text-white">
+    <div className="min-h-[calc(100vh-73px)]">
       <main className="container mx-auto px-4 py-8 md:py-16">
-
         <div className="max-w-4xl mx-auto mb-8">
+
           <Link 
             href={`/u/${username}/${projectSlug}/devlogs`} 
-            className="flex items-center gap-2 text-orange-500 hover:text-orange-400 transition-colors font-semibold"
+            className="flex items-center gap-2 text-neutral-600 hover:text-blue-600 transition-colors font-medium"
           >
             <ArrowLeft size={20} />
-            Return to the Saga
+            Back to Devlogs for {project.name}
           </Link>
         </div>
 
-        <div className="max-w-4xl mx-auto">
+        <article className="max-w-4xl mx-auto">
+          <header className="text-center">
 
-          <div className="text-center">
-            <h1 className="text-4xl font-extrabold text-orange-400 sm:text-5xl">
-              {devlog.title ?? "A Whisper from the Void"}
+            <h1 className="text-4xl font-extrabold tracking-tight text-neutral-900 sm:text-5xl">
+              {devlog.title ?? "Untitled Devlog"}
             </h1>
-            <div className="mt-4 text-md text-neutral-300">
-              A scroll scrawled by {devlog.owner_full_name ?? devlog.owner_username} on {formatDate(devlog.created_at)}
+
+            <div className="mt-4 text-md text-neutral-500">
+              Published by {devlog.owner_full_name ?? devlog.owner_username} on {formatDate(devlog.created_at)}
             </div>
-          </div>
+          </header>
 
           {devlog.image_url && (
             <img 
               src={devlog.image_url} 
-              alt={devlog.title} 
-              className="mt-12 mb-12 w-full rounded-xl border-2 border-neutral-700 shadow-2xl shadow-orange-800/40 aspect-video object-cover" 
+              alt={devlog.title || 'Devlog cover image'} 
+              className="mt-12 mb-12 w-full rounded-xl border border-neutral-200 shadow-xl aspect-video object-cover" 
             />
           )}
 
-          <article className="
-            prose prose-invert prose-lg mx-auto mt-8
-            prose-headings:text-orange-400 prose-headings:font-bold
-            prose-a:text-lime-400 prose-a:font-semibold hover:prose-a:text-lime-300 prose-a:transition-colors
-            prose-strong:text-neutral-100
-            prose-blockquote:border-l-4 prose-blockquote:border-orange-600 prose-blockquote:text-neutral-300 prose-blockquote:italic
-            prose-code:text-red-400 prose-code:bg-neutral-800/50 prose-code:px-1.5 prose-code:py-1 prose-code:rounded-md
-            prose-pre:bg-neutral-800/80 prose-pre:border prose-pre:border-neutral-700
-            prose-img:rounded-lg prose-img:border prose-img:border-neutral-700
-            prose-hr:border-neutral-700
+          <div className="
+            prose prose-lg mx-auto mt-12
+            prose-headings:text-neutral-800 prose-headings:font-bold
+            prose-a:text-blue-600 hover:prose-a:underline
+            prose-strong:text-neutral-800
+            prose-blockquote:border-l-4 prose-blockquote:border-blue-400 prose-blockquote:bg-blue-50 prose-blockquote:p-4 prose-blockquote:text-neutral-700
+            prose-code:text-red-600 prose-code:bg-red-50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md
+            prose-pre:bg-neutral-100 prose-pre:border prose-pre:border-neutral-200
+            prose-img:rounded-lg prose-img:border prose-img:border-neutral-200
+            prose-hr:border-neutral-200
           ">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>
               {devlog.body}
             </ReactMarkdown>
-          </article>
-        </div>
+          </div>
+        </article>
       </main>
     </div>
   );
