@@ -8,30 +8,32 @@ export default function AuthConfirmPage() {
   const email = searchParams.get('email');
 
   return (
-    <div className="min-h-[calc(100vh-73px)] text-gray-200 flex items-center justify-center p-4">
-      <div className="max-w-md w-full text-center bg-neutral-800 border border-gray-700 p-8 shadow-2xl shadow-orange-900/40">
+    <div className="min-h-[calc(100vh-73px)] flex items-center justify-center p-4">
+      
+      <div className="max-w-md w-full text-center bg-white border border-neutral-200 rounded-lg p-8 shadow-lg">
+        
         <div className="flex justify-center mb-6">
-          <div className="bg-orange-600/20 p-4 rounded-full border-2 border-orange-500/50">
-            <Mail className="w-12 h-12 text-orange-400 animate-pulse" />
+          <div className="bg-blue-100 p-4 rounded-full">
+            <Mail className="w-12 h-12 text-blue-600" />
           </div>
         </div>
         
-        <h1 className="text-3xl font-bold text-orange-400">
-          Confirm your email
+        <h1 className="text-3xl font-bold text-neutral-900">
+          Check Your Inbox
         </h1>
         
-        <p className="mt-4 text-gray-300">
-          A sacred confirmation link has been sent to the aetherial address:
+        <p className="mt-4 text-neutral-600">
+          We've sent a confirmation link to your email address:
         </p>
         
         {email && (
-          <p className="mt-2 text-lg font-semibold text-white bg-gray-700/50 inline-block px-4 py-2 rounded-md">
+          <p className="mt-2 text-lg font-semibold text-neutral-800">
             {email}
           </p>
         )}
         
-        <p className="mt-6 text-sm text-gray-500">
-          Click the link in the email to complete the ritual and unleash your account.
+        <p className="mt-6 text-sm text-neutral-500">
+          Click the link in the email to complete your sign-up. If you don't see it, please check your spam folder.
         </p>
       </div>
     </div>

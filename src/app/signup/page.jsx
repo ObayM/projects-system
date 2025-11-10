@@ -1,8 +1,12 @@
 "use client";
 
-import { useFormStatus } from 'react-dom';
+import { useState } from 'react';
+import { useFormState, useFormStatus } from 'react-dom';
 import { signup } from '@/components/auth/actions';
 import Link from 'next/link';
+import { useAuth } from '@/components/auth/AuthProvider';
+import { Mail, KeyRound, Eye, EyeOff, Loader2, LogIn } from 'lucide-react';
+import { redirect } from 'next/navigation';
 
 function SubmitButton() {
   const { pending } = useFormStatus(); 
@@ -11,77 +15,104 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="flex justify-center w-full px-4 py-3 text-sm font-semibold text-white transition-colors bg-blue-600 rounded-md shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:bg-blue-300 disabled:cursor-not-allowed" // Added disabled styles
+      className="flex items-center justify-center w-full px-4 py-3 text-sm font-semibold text-white
+       transition-all duration-300 ease-in-out bg-blue-600 rounded-lg shadow-md
+        hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 
+        focus:ring-offset-2 disabled:bg-blue-400 disabled:cursor-not-allowed"
     >
-      {pending ? 'Signing Up...' : 'Sign Up'}
+      {pending ? (
+        <>
+          <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+          <span>Signing Up...</span>
+        </>
+      ) : (
+        <>
+          <LogIn className="w-5 h-5 mr-2" />
+          <span>Create Account</span>
+        </>
+      )}
     </button>
   );
 }
 
+export default function SignupPage() {
+  const { user } = useAuth();
+  const initialState = { message: '' };
+  const [state, dispatch] = useFormState(signup, initialState);
+  const [showPassword, setShowPassword] = useState(false);
 
-export default function LoginPage() {
+  if (user) return redirect("/");
   return (
+    <main className="flex items-center justify-center min-h-screen px-4 ">
+      <div 
+        className="w-full max-w-md p-6 space-y-6 bg-white border rounded-2xl shadow-xl border-neutral-200/70 sm:p-8"
 
-    <main className="flex items-center justify-center min-h-[calc(100vh-73px)] ">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white border rounded-2xl shadow-xl border-neutral-200/50">
-        
+      >
         <div className="text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-blue-950 ">
-            Sign Up
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            Create an Account
           </h1>
-          <p className="mt-2 text-sm text-neutral-500 ">
-            Create Your Account!
+          <p className="mt-2 text-sm text-gray-600">
+            Join us and start your journey!
           </p>
         </div>
 
-        <form action={signup} className="mt-8 space-y-6">
-          <div>
-            <label 
-              htmlFor="email" 
-              className="block text-sm font-medium text-neutral-700"
-            >
-              Email Address
-            </label>
+        <form action={dispatch} className="space-y-6">
 
-            <div className="mt-1">
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                className="block w-full px-3 py-2 bg-neutral-50 border border-neutral-300 rounded-md shadow-sm appearance-none placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm "
-              />
-            </div>
+          <div className="relative">
+            <Mail className="absolute w-5 h-5 text-gray-400 top-3.5 left-3" />
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autoComplete="email"
+              required
+              placeholder="Email address"
+              className="block w-full py-3 pl-10 pr-3 text-gray-900 bg-gray-50 border
+               border-gray-300 rounded-lg shadow-sm appearance-none placeholder:text-gray-400
+                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            />
           </div>
 
-          <div>
-            <label 
-              htmlFor="password" 
-              className="block text-sm font-medium text-neutral-700"
+          <div className="relative">
+            <KeyRound className="absolute w-5 h-5 text-gray-400 top-3.5 left-3" />
+            <input
+              id="password"
+              name="password"
+              type={showPassword ? "text" : "password"}
+              autoComplete="new-password"
+              required
+              placeholder="Password"
+              className="block w-full py-3 pl-10 pr-10 text-gray-900 bg-gray-50 border
+               border-gray-300 rounded-lg shadow-sm appearance-none placeholder:text-gray-400 
+               focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-blue-600"
+              aria-label={showPassword ? "Hide password" : "Show password"}
             >
-              Password
-            </label>
-            <div className="mt-1">
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                className="block w-full px-3 py-2 bg-neutral-50 border border-neutral-300 rounded-md shadow-sm appearance-none placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-"
-              />
-            </div>
+              {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+            </button>
           </div>
+          
+          {state?.message && (
+             <p 
+              className="text-sm font-medium text-center text-red-600"
+            >
+              {state.message}
+            </p>
+          )}
 
           <div>
             <SubmitButton />
           </div>
         </form>
 
-        <p className="mt-10 text-sm text-center text-neutral-500 ">
-          Already Have an Account?{' '}
-          <Link href="/login" className="font-semibold leading-6 text-blue-600 hover:text-blue-500">
+        <p className="mt-8 text-sm text-center text-gray-600">
+          Already have an account?{' '}
+          <Link href="/login" className="font-semibold text-blue-600 hover:text-blue-500 hover:underline">
             Sign In
           </Link>
         </p>

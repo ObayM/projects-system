@@ -2,61 +2,58 @@
 
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-
 import { createClient } from '@/utils/supabase/server'
 
-export async function login(formData) {
-  const supabase = await createClient()
+export async function login(prevState, formData) {
+  const supabase = await createClient();
 
-  const data = {
-    email: formData.get('email'),
-    password: formData.get('password'),
+  const email = formData.get('email');
+  const password = formData.get('password');
+
+  if (!email || !password) {
+    return { message: 'Email and password are required.' };
   }
 
-  const { data: authData, error } = await supabase.auth.signInWithPassword(data)
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) {
-    console.error("Something went wrong: ", error)
-    redirect('/error')
+    return { message: 'Invalid credentials. Please try again.' };
   }
 
-  const user = authData.user
-
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('id')
-    .eq('id', user.id)
-    .maybeSingle()
-
-  if (!profile) {
-    redirect('/onboarding')
-  }
-
-  revalidatePath('/', 'layout')
-  redirect('/projects')
+  revalidatePath('/', 'layout');
+  redirect('/projects');
 }
 
-export async function signup(formData) {
-  const supabase = await createClient()
-  const data = {
-    email: formData.get('email'),
-    password: formData.get('password'),
+export async function signup(prevState, formData) {
+  const supabase = await createClient();
+  
+  const email = formData.get('email');
+  const password = formData.get('password');
+
+  if (!email || !password) {
+    return { message: 'Please provide both an email and a password.' };
   }
 
-  const { error } = await supabase.auth.signUp(data)
+
+  if (password.length < 6) {
+    return { message: 'Password must be at least 6 characters long.' };
+  }
+
+  const { error } = await supabase.auth.signUp({ email, password });
 
   if (error) {
-    console.log("Something went wrong: ", error)
-    redirect('/error')
+    console.error('Supabase signup error:', error);
+
+    return { message: error.message };
   }
 
-  revalidatePath('/', 'layout')
-  redirect(`/auth/email-confirm?email=${encodeURIComponent(data.email)}`)
+  revalidatePath('/', 'layout');
+  redirect(`/auth/email-confirm?email=${encodeURIComponent(email)}`);
 }
 
 
 export async function logOut() {
-  const supabase = await createClient()
-  await supabase.auth.signOut()
-  redirect("/")
+  const supabase = await createClient();
+  await supabase.auth.signOut();
+  redirect("/");
 }
