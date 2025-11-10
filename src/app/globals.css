@@ -3,13 +3,15 @@
 
 body {
     font-family: var(--font-poppins);
-    background-color: #0d1117;
-    background-image: linear-gradient(to right, #00b4d8 1px, transparent 1px), linear-gradient(to bottom, #90e0ef 1px, transparent 1px);
+    background-color: #f8f9fa;
+    color: #212529;
+    background-image:
+        linear-gradient(to right, #e0e0e0 1px, transparent 1px),
+        linear-gradient(to bottom, #e0e0e0 1px, transparent 1px);
     background-position: top;
     background-repeat: repeat;
-    background-size: 60px 60px;
+    background-size: 50px 50px;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
 }
-
