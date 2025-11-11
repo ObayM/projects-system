@@ -37,6 +37,8 @@ export async function updateSession(request) {
     data: { user },
   } = await supabase.auth.getUser()
 
+    const pathname = request.nextUrl.pathname;
+
   if (
     !user &&
     !request.nextUrl.pathname.startsWith('/login') &&
@@ -51,6 +53,20 @@ export async function updateSession(request) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     return NextResponse.redirect(url)
+  }
+
+  if (user) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("id")
+      .eq("id", user.id)
+      .maybeSingle();
+
+    if (!profile && !pathname.startsWith("/onboarding")) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/onboarding";
+      return NextResponse.redirect(url);
+    }
   }
 
   // IMPORTANT: You *must* return the supabaseResponse object as it is.
