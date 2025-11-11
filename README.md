@@ -1,5 +1,5 @@
 
-# Untitled 
+# Shiplog 
 
 > Want to track your projects journey
 > See other project journeys!
@@ -52,11 +52,3 @@ Open [http://localhost:3000](http://localhost:3000) during development.
 * `/u/username/project-slug/devlogs/devlogId` to read a devlog in full mode
 * `/u/username/project-slug/devlogs/new` : to create a new devlog
 
----
-
-If you are a stoneman from siege, this week theme is "SpOOky" and the theme of the site is halloween-themed and it's clearly using spooky text everywhere 
-
----
-PS: once this week is done, i'll change the ui to look modern and better (dw, ik the spooky thing isn't cool)
-PS PS : This was my first project that i really get into DBs, that was cool faced some bugs too :sob: 
-PS PS PS : feel free to start the repo, lol
