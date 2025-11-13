@@ -50,7 +50,7 @@ export default function CreateProject() {
             description,
             github_repo: githubRepo,
             deployed_url: deployedUrl,
-            is_public: isPublic,
+            is_public: true,
         };
 
         const response = await fetch('/api/projects/currentUser', {
@@ -151,7 +151,7 @@ export default function CreateProject() {
                         </div>
                     </div>
 
-                    <div className="flex items-center">
+                    {/* <div className="flex items-center">
                         <input
                             id="isPublic"
                             type="checkbox"
@@ -160,7 +160,7 @@ export default function CreateProject() {
                             className="h-4 w-4 rounded border-neutral-300 accent-blue-600 focus:ring-blue-500"
                         />
                         <label htmlFor="isPublic" className="ml-2 block text-sm text-neutral-700">Make this project public</label>
-                    </div>
+                    </div> */}
 
                     <div className="flex justify-end pt-4 border-t border-neutral-200">
 

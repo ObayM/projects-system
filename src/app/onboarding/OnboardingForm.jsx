@@ -103,7 +103,7 @@ export default function OnboardingForm() {
   return (
     <form 
       onSubmit={handleSubmit} 
-      className="mt-8 max-w-sm mx-auto bg-neutral-800/50 border border-neutral-700 rounded-lg p-6 shadow-lg shadow-orange-900/30"
+      className="mt-8 max-w-sm mx-auto bg-white border border-neutral-700 rounded-lg p-6"
     >
       <div className="relative">
         <label htmlFor="username" className="sr-only">Username</label>
